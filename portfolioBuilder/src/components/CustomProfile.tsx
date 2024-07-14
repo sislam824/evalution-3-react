@@ -1,52 +1,63 @@
-import { Button, Flex, Grid, Heading, Input, Textarea } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Textarea,
+  Box,
+  Image,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Image, Box } from "@chakra-ui/react";
-const CustomProfile = () => {
-  const [name, setName] = useState("Mason parker");
-  const [designation, setdeignation] = useState("Graphics & UI/UX Designer");
-  const [location, setlocation] = useState(" Denver , United States");
-  const [Bio, setBio] = useState(
+
+// Define types for state
+interface CustomProfileState {
+  name: string;
+  designation: string;
+  location: string;
+  bio: string;
+  backgroundColor: string;
+  foregroundColor: string;
+}
+
+const CustomProfile: React.FC = () => {
+  // Set initial state with type annotation
+  const [name, setName] = useState<string>("Mason parker");
+  const [designation, setDesignation] = useState<string>(
+    "Graphics & UI/UX Designer"
+  );
+  const [location, setLocation] = useState<string>("Denver, United States");
+  const [bio, setBio] = useState<string>(
     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure labore, culpa praesentium neque molestias debitis earum totam repellat incidunt adipisci eaque repellendus sed accusantium itaque, rem voluptatibus in optio officiis.nis fugiat praesentium voluptatum culpa, ullam mollitia rerum adipisci sint quam earum. Dolorum quae corporis molestiae molestias ullam consectetur perferendis natus corrupti repellat cum! Corporis?Aliquid laboriosam ullam ea delectus optio culpa fuga enim ipsum similique. Atque esse natus velit iure iste quam exercitationem commodi, sedaliquam nostrum quis ullam quidem minus molestias totam.Asperiores iste nisi numquam minima enim, delectus sed beatae provident, ad ab nostrum iure vero! Aliquam excepturi deserunt culpa iusto, consequatur facilis ullam distinctio soluta odio, quos, nulla atque nemo."
   );
-  const [backgroundColore, setBackgroundColor] = useState("#ffffff");
-  const [foregroundColore, setForegroundColor] = useState("#000000");
+  const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
+  const [foregroundColor, setForegroundColor] = useState<string>("#000000");
+
   useEffect(() => {
     const storedName = localStorage.getItem("name");
-    const storeddesignation = localStorage.getItem("designation");
-    const storedlocation = localStorage.getItem("location");
-    const storedbio = localStorage.getItem("bio");
+    const storedDesignation = localStorage.getItem("designation");
+    const storedLocation = localStorage.getItem("location");
+    const storedBio = localStorage.getItem("bio");
     const storedBackground = localStorage.getItem("background");
     const storedForeground = localStorage.getItem("foreground");
-    if (storedName) {
-      setName(storedName);
-    }
-    if (storeddesignation) {
-      setdeignation(storeddesignation);
-    }
-    if (storedlocation) {
-      setlocation(storedlocation);
-    }
-    if (storedbio) {
-      setBio(storedbio);
-    }
-    if (storedBackground) {
-      setBackgroundColor(storedBackground);
-    }
-    if (storedForeground) {
-      setForegroundColor(storedForeground);
-    }
+
+    if (storedName) setName(storedName);
+    if (storedDesignation) setDesignation(storedDesignation);
+    if (storedLocation) setLocation(storedLocation);
+    if (storedBio) setBio(storedBio);
+    if (storedBackground) setBackgroundColor(storedBackground);
+    if (storedForeground) setForegroundColor(storedForeground);
   }, []);
 
   const handleSave = () => {
     localStorage.setItem("name", name);
     localStorage.setItem("designation", designation);
     localStorage.setItem("location", location);
-    localStorage.setItem("bio", Bio);
-    localStorage.setItem("background", backgroundColore);
-    localStorage.setItem("foreground", foregroundColore);
+    localStorage.setItem("bio", bio);
+    localStorage.setItem("background", backgroundColor);
+    localStorage.setItem("foreground", foregroundColor);
   };
 
-  const colorss = [
+  const colors: string[] = [
     "#F7FAFC",
     "#1A202C",
     "#6677cd",
@@ -58,7 +69,7 @@ const CustomProfile = () => {
     "#e9dae1",
   ];
 
-  const LinerGradient = [
+  const linearGradients: string[] = [
     "(to bottom right, #cfc8c8, yellow)",
     "(to bottom right, #d3aeae, #930ed1)",
     "(to bottom right, #056c29, yellow)",
@@ -73,7 +84,7 @@ const CustomProfile = () => {
     "(to bottom right, #cfc8c8, #d53139)",
   ];
 
-  const RadialGradient = [
+  const radialGradients: string[] = [
     "(#FF0000 20%, #1a5d95 20%, green 40%)",
     "(#FF0000 20%, yellow 15%, #b7e4b7 60%)",
     "(red 5%, #e2e2b7 15%, #6379d3 60%)",
@@ -89,9 +100,7 @@ const CustomProfile = () => {
     "(red 5%, yellow 15%, #766363 60%)",
   ];
 
-  const ForeGround = ["#FAFCFC", "#000000"];
-  const [Linear, setLinearColor] = useState([]);
-  const [RadialColor, setRadialColor] = useState([]);
+  const foregroundColors: string[] = ["#FAFCFC", "#000000"];
 
   return (
     <div>
@@ -104,7 +113,7 @@ const CustomProfile = () => {
         borderRadius={"16px"}
       >
         <div>
-          <Heading>Apply a Skin To Your Profie</Heading>
+          <Heading>Apply a Skin To Your Profile</Heading>
         </div>
         <Flex gap={4}>
           <Button colorScheme="white" variant="outline">
@@ -118,22 +127,24 @@ const CustomProfile = () => {
       <div className="Cards">
         <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
           <div>
-            <h1 className="Heading">solids</h1>
+            <h1 className="Heading">Solids</h1>
             <Flex gap={4} flexWrap={"wrap"}>
-              {colorss.map((item) => (
+              {colors.map((item) => (
                 <div
+                  key={item}
                   onClick={() => setBackgroundColor(item)}
-                  style={{ background: `${item}`, padding: "20px" }}
+                  style={{ background: item, padding: "20px" }}
                 ></div>
               ))}
             </Flex>
           </div>
 
-          <div className="Linerradient">
-            <h1 className="Heading">Liner Gardient</h1>
+          <div className="LinearGradient">
+            <h1 className="Heading">Linear Gradient</h1>
             <Flex gap={4} flexWrap={"wrap"}>
-              {LinerGradient.map((item) => (
+              {linearGradients.map((item) => (
                 <div
+                  key={item}
                   onClick={() => setBackgroundColor(`linear-gradient${item}`)}
                   style={{
                     backgroundImage: `linear-gradient${item}`,
@@ -144,11 +155,12 @@ const CustomProfile = () => {
             </Flex>
           </div>
 
-          <div className="Linerradient">
-            <h1 className="Heading">Radial Gardient</h1>
+          <div className="RadialGradient">
+            <h1 className="Heading">Radial Gradient</h1>
             <Flex gap={4} flexWrap={"wrap"}>
-              {RadialGradient.map((item) => (
+              {radialGradients.map((item) => (
                 <div
+                  key={item}
                   onClick={() => setBackgroundColor(`radial-gradient${item}`)}
                   style={{
                     backgroundImage: `radial-gradient${item}`,
@@ -160,23 +172,21 @@ const CustomProfile = () => {
           </div>
 
           <div>
-            <div className="Linerradient">
-              <h1 className="Heading">ForeGround Color</h1>
+            <div className="ForegroundColor">
+              <h1 className="Heading">Foreground Color</h1>
               <Flex gap={4} flexWrap={"wrap"}>
-                {ForeGround.map((item) => (
+                {foregroundColors.map((item) => (
                   <div
+                    key={item}
                     onClick={() => setForegroundColor(item)}
-                    style={{
-                      background: `${item}`,
-                      padding: "20px",
-                    }}
+                    style={{ background: item, padding: "20px" }}
                   ></div>
                 ))}
               </Flex>
             </div>
           </div>
         </div>
-        <div style={{ background: backgroundColore, color: foregroundColore }}>
+        <div style={{ background: backgroundColor, color: foregroundColor }}>
           <Box className="PicMain">
             <Box className="timeline">
               <Box className="Profile-pic">
@@ -220,7 +230,7 @@ const CustomProfile = () => {
                 fontWeight={600}
                 value={designation}
                 border={"none"}
-                onChange={(e) => setdeignation(e.target.value)}
+                onChange={(e) => setDesignation(e.target.value)}
               />
             </div>
             <div
@@ -234,7 +244,7 @@ const CustomProfile = () => {
                 fontWeight={500}
                 value={location}
                 border={"none"}
-                onChange={(e) => setlocation(e.target.value)}
+                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
             <div
@@ -242,12 +252,10 @@ const CustomProfile = () => {
             >
               <Textarea
                 borderStyle={"dashed"}
-                htmlSize={4}
                 padding={5}
-                type="text"
                 size={"sm"}
                 fontSize="2xl"
-                value={Bio}
+                value={bio}
                 borderWidth={2}
                 borderColor={"black"}
                 borderRadius={"16px"}
