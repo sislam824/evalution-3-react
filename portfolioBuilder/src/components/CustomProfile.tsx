@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-// Define types for state
 interface CustomProfileState {
   name: string;
   designation: string;
@@ -20,7 +19,6 @@ interface CustomProfileState {
 }
 
 const CustomProfile: React.FC = () => {
-  // Set initial state with type annotation
   const [name, setName] = useState<string>("Mason parker");
   const [designation, setDesignation] = useState<string>(
     "Graphics & UI/UX Designer"
@@ -32,6 +30,8 @@ const CustomProfile: React.FC = () => {
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
   const [foregroundColor, setForegroundColor] = useState<string>("#000000");
 
+  const [fontFamily, setfontFamily] = useState<string>("Open Sans");
+
   useEffect(() => {
     const storedName = localStorage.getItem("name");
     const storedDesignation = localStorage.getItem("designation");
@@ -40,12 +40,21 @@ const CustomProfile: React.FC = () => {
     const storedBackground = localStorage.getItem("background");
     const storedForeground = localStorage.getItem("foreground");
 
+    const storedFontFamily = localStorage.getItem("fontfamily");
+    // const Fontsize = localStorage.getItem("fontsize");
+    // const FontLineHeight = localStorage.getItem("lineHeight");
+    // const FontLetterSpacing = localStorage.getItem("letterSpacing");
+
     if (storedName) setName(storedName);
     if (storedDesignation) setDesignation(storedDesignation);
     if (storedLocation) setLocation(storedLocation);
     if (storedBio) setBio(storedBio);
     if (storedBackground) setBackgroundColor(storedBackground);
     if (storedForeground) setForegroundColor(storedForeground);
+    if (storedFontFamily) setfontFamily(storedFontFamily);
+    // if (storedFontSize) setFontSize(storedFontSize);
+    // if (storedLineHeightt) setLineHeight(storedLineHeight);
+    // if (storedLetterSpacing) setLetterSpacing(storedLetterSpacing);
   }, []);
 
   const handleSave = () => {
@@ -55,6 +64,10 @@ const CustomProfile: React.FC = () => {
     localStorage.setItem("bio", bio);
     localStorage.setItem("background", backgroundColor);
     localStorage.setItem("foreground", foregroundColor);
+    localStorage.setItem("fontfamily", fontFamily);
+    // localStorage.setItem("fontSize", fontSize.toString());
+    // localStorage.setItem("lineHeight", lineHeight.toString());
+    // localStorage.setItem("letterSpacing", letterSpacing.toString());
   };
 
   const colors: string[] = [
@@ -102,6 +115,13 @@ const CustomProfile: React.FC = () => {
 
   const foregroundColors: string[] = ["#FAFCFC", "#000000"];
 
+  const fontFamilies: string[] = [
+    "Open Sans",
+    "Gideo Roman",
+    "Martian Mono",
+    "MOntserrat",
+  ];
+
   return (
     <div>
       <Flex
@@ -114,6 +134,13 @@ const CustomProfile: React.FC = () => {
       >
         <div>
           <Heading>Apply a Skin To Your Profile</Heading>
+
+          {/* <select name="Language" id="Language">
+            <option value="''"></option>
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Arabic">Arabic</option>
+          </select> */}
         </div>
         <Flex gap={4}>
           <Button colorScheme="white" variant="outline">
@@ -185,6 +212,23 @@ const CustomProfile: React.FC = () => {
               </Flex>
             </div>
           </div>
+
+          <div>
+            <div className="FontFamily">
+              <h1 className="Heading">Font Family</h1>
+
+              <select
+                value={fontFamily}
+                onChange={(e) => setfontFamily(e.target.value)}
+              >
+                {fontFamilies.map((font) => (
+                  <option key={font} value={font}>
+                    {font}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
         <div style={{ background: backgroundColor, color: foregroundColor }}>
           <Box className="PicMain">
@@ -213,6 +257,7 @@ const CustomProfile: React.FC = () => {
                 size={"lg"}
                 fontSize="5xl"
                 fontWeight={700}
+                fontFamily={}
                 value={name}
                 border={"none"}
                 placeholder="Name"
