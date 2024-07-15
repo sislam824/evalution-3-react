@@ -14,6 +14,7 @@ interface CustomProfileState {
   designation: string;
   location: string;
   bio: string;
+  image: string;
   backgroundColor: string;
   foregroundColor: string;
 }
@@ -27,10 +28,13 @@ const CustomProfile: React.FC = () => {
   const [bio, setBio] = useState<string>(
     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure labore, culpa praesentium neque molestias debitis earum totam repellat incidunt adipisci eaque repellendus sed accusantium itaque, rem voluptatibus in optio officiis.nis fugiat praesentium voluptatum culpa, ullam mollitia rerum adipisci sint quam earum. Dolorum quae corporis molestiae molestias ullam consectetur perferendis natus corrupti repellat cum! Corporis?Aliquid laboriosam ullam ea delectus optio culpa fuga enim ipsum similique. Atque esse natus velit iure iste quam exercitationem commodi, sedaliquam nostrum quis ullam quidem minus molestias totam.Asperiores iste nisi numquam minima enim, delectus sed beatae provident, ad ab nostrum iure vero! Aliquam excepturi deserunt culpa iusto, consequatur facilis ullam distinctio soluta odio, quos, nulla atque nemo."
   );
+  const [image, setImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
   const [foregroundColor, setForegroundColor] = useState<string>("#000000");
 
-  const [fontFamily, setfontFamily] = useState<string>("Open Sans");
+  const [fontFamily, setfontFamily] = useState<string>("Arial");
+  const [fontSize, setFontSize] = useState<string>("xl");
+  const [lineHeight, setLineHeight] = useState<string>("30px");
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
@@ -39,21 +43,23 @@ const CustomProfile: React.FC = () => {
     const storedBio = localStorage.getItem("bio");
     const storedBackground = localStorage.getItem("background");
     const storedForeground = localStorage.getItem("foreground");
+    const storedImage = localStorage.getItem("image");
 
     const storedFontFamily = localStorage.getItem("fontfamily");
-    // const Fontsize = localStorage.getItem("fontsize");
-    // const FontLineHeight = localStorage.getItem("lineHeight");
-    // const FontLetterSpacing = localStorage.getItem("letterSpacing");
+    const storedFontSize = localStorage.getItem("fontsize");
+    const storedLineHeight = localStorage.getItem("lineHeight");
+    // const storedFontLetterSpacing = localStorage.getItem("letterSpacing");
 
     if (storedName) setName(storedName);
     if (storedDesignation) setDesignation(storedDesignation);
     if (storedLocation) setLocation(storedLocation);
     if (storedBio) setBio(storedBio);
+    if (storedImage) setImage(storedImage);
     if (storedBackground) setBackgroundColor(storedBackground);
     if (storedForeground) setForegroundColor(storedForeground);
     if (storedFontFamily) setfontFamily(storedFontFamily);
-    // if (storedFontSize) setFontSize(storedFontSize);
-    // if (storedLineHeightt) setLineHeight(storedLineHeight);
+    if (storedFontSize) setFontSize(storedFontSize);
+    if (storedLineHeight) setLineHeight(storedLineHeight);
     // if (storedLetterSpacing) setLetterSpacing(storedLetterSpacing);
   }, []);
 
@@ -65,9 +71,9 @@ const CustomProfile: React.FC = () => {
     localStorage.setItem("background", backgroundColor);
     localStorage.setItem("foreground", foregroundColor);
     localStorage.setItem("fontfamily", fontFamily);
-    // localStorage.setItem("fontSize", fontSize.toString());
-    // localStorage.setItem("lineHeight", lineHeight.toString());
-    // localStorage.setItem("letterSpacing", letterSpacing.toString());
+    localStorage.setItem("fontSize", fontSize.toString());
+    localStorage.setItem("lineHeight", lineHeight.toString());
+    localStorage.setItem("image", image);
   };
 
   const colors: string[] = [
@@ -116,12 +122,34 @@ const CustomProfile: React.FC = () => {
   const foregroundColors: string[] = ["#FAFCFC", "#000000"];
 
   const fontFamilies: string[] = [
-    "Open Sans",
-    "Gideo Roman",
-    "Martian Mono",
-    "MOntserrat",
+    "Arial",
+    "Courier New",
+    "Times New Roman",
+    "Trebuchet MS",
   ];
 
+  const fontSizes: string[] = [
+    "6xl",
+    "5xl",
+    "4xl",
+    "3xl",
+    "2xl",
+    "xl",
+    "lg",
+    "l",
+    "md",
+    "sm",
+    "xs",
+  ];
+  const lineHeights: string[] = [
+    "10px",
+    "20px",
+    "30px",
+    "50px",
+    "60px",
+    "80px",
+    "100px",
+  ];
   return (
     <div>
       <Flex
@@ -229,6 +257,38 @@ const CustomProfile: React.FC = () => {
               </select>
             </div>
           </div>
+
+          <div style={{ display: "flex", gap: "50px" }}>
+            <div className="FontSize">
+              <h1 className="Heading">Font Size</h1>
+
+              <select
+                value={fontSize}
+                onChange={(e) => setFontSize(e.target.value)}
+              >
+                {fontSizes.map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="LineHeight">
+              <h1 className="Heading">Line Height</h1>
+
+              <select
+                value={lineHeight}
+                onChange={(e) => setLineHeight(e.target.value)}
+              >
+                {lineHeights.map((line) => (
+                  <option key={line} value={line}>
+                    {line}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
         <div style={{ background: backgroundColor, color: foregroundColor }}>
           <Box className="PicMain">
@@ -255,10 +315,12 @@ const CustomProfile: React.FC = () => {
                 padding={8}
                 type="text"
                 size={"lg"}
+                lang="fr"
                 fontSize="5xl"
+                lineHeight={lineHeight}
                 fontWeight={700}
-                fontFamily={}
                 value={name}
+                fontFamily={fontFamily}
                 border={"none"}
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}
@@ -271,7 +333,8 @@ const CustomProfile: React.FC = () => {
                 htmlSize={4}
                 padding={5}
                 type="text"
-                fontSize="3xl"
+                fontFamily={fontFamily}
+                fontSize={fontSize}
                 fontWeight={600}
                 value={designation}
                 border={"none"}
@@ -283,8 +346,10 @@ const CustomProfile: React.FC = () => {
             >
               <Input
                 htmlSize={4}
+                lang="es"
                 padding={5}
                 type="text"
+                fontFamily={fontFamily}
                 fontSize="2xl"
                 fontWeight={500}
                 value={location}
@@ -300,16 +365,30 @@ const CustomProfile: React.FC = () => {
                 padding={5}
                 size={"sm"}
                 fontSize="2xl"
+                fontFamily={fontFamily}
                 value={bio}
+                lineHeight={lineHeight}
                 borderWidth={2}
                 borderColor={"black"}
                 borderRadius={"16px"}
+                lang="fr"
                 pt={10}
                 resize={"both"}
                 height={"300px"}
                 onChange={(e) => setBio(e.target.value)}
               />
               <label htmlFor="">Bio :</label>
+            </div>
+
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+            >
+              <label htmlFor="">Image:</label>
+              <input
+                type="file"
+                onChange={(e) => setImage(e.target.value)}
+                multiple
+              />
             </div>
           </form>
         </div>
